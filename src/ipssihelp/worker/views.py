@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
-from .forms import SignupForm
+from .forms import SignupForm, UpdateProfileForm
 from .models import Ad, User
 from django.db.models import Count
 from .methods import get_ads
@@ -51,6 +51,38 @@ def signup(request):
 
     return redirect('worker:home')
 
+#"""@decorators.login_required(login_url='/your_login_page')""""
+@csrf_protect
+@requires_csrf_token
+def worker_profile(request, user_id):
+    template = loader.get_template('accounts/profile.html')
+    id = int(user_id)
+    user = User.objects.get(id=id)
+    form = UpdateProfileForm(initial={
+                            'first_name': user.first_name,
+                            'last_name': user.last_name,
+                            'email': user.email,
+                            'phone': user.phone})
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST)
+        context = {
+            'form': form
+        }
+        if form.is_valid():
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email_name = form.cleaned_data['email']
+            user.phone = form.cleaned_data['phone']
+            user.save(update_fields=['first_name','last_name','phone','email'])
+            print("sucess")
+        else:
+            print("error")
+    else:
+        UpdateProfileForm()
+        context = {
+            'form': form
+        }
+    return HttpResponse(template.render(context, request))
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
