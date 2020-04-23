@@ -105,8 +105,6 @@ def worker_profile(request):
         }
     return HttpResponse(template.render(context, request))
 
-def get_my_ads(request, user_id):
-    template = loader.get_template('ad/detail.html')
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
@@ -138,8 +136,20 @@ def detail(request, slug):
 
     return HttpResponse(template.render(context, request))
 
+@decorators.login_required(login_url='/accounts/login')
+def getAllAds(request):
+    """get all ads of an author"""
+    template = loader.get_template('accounts/ads.html')
+    user = get_user(request)
+    if user:
+        myads = user.ad_set.filter(type='demand', status__exact='online')
+        print(myads)
+    context = {
+        'ads': myads
+    }
+    return HttpResponse(template.render(context, request))
 
-@decorators.login_required(login_url='/your_login_page')
+@decorators.login_required(login_url='/accounts/login')
 def protected_page_view(request):
     template = loader.get_template('your_template.html')
     # something

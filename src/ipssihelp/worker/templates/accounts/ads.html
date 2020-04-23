@@ -5,21 +5,34 @@
 <div style="margin-left:20px;margin-top:20px">
   {% if ads %}
   <ul>
-    {% for ad in ads %}
+
     <hr />
-<div class="card-columns">
-  <div class="card bg-primary">
-    <div class="card-body text-center">
-      <p class="card-text">{{user}}</p>
-      <p class="card-text">{{user}}</p>
-    </div>
-  </div>
-    {% endfor %}
+    <table class="table">
+
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Category</th>
+          <th scope="col">last_update</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ad in ads %}
+        <tr>
+          <th scope="row">#</th>
+          <td>{{ad.title}}</td>
+          <td>{{ad.category}}</td>
+          <td>{{ad.updated}}</td>
+        </tr>
+            {% endfor %}
+      </tbody>
+
+    </table>
+
   </ul>
   {% else %}
-  <p>No ads are available.</p>
+  <p>Vous avez accune anonce.</p>
   {% endif %}
 </div>
-
-<h4>Copies</h4>
 {% endblock %}
