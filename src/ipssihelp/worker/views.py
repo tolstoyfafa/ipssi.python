@@ -5,13 +5,19 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
 from .forms import SignupForm
-from .models import Ad
+from .models import Ad, User
+from django.db.models import Count
+from .methods import get_ads
 
 
 def home(request):
     template = loader.get_template('home.html')
+    top_users = User.objects.annotate(ads=Count('ad')).order_by('-ads')[:5]
+    print(top_users)
     context = {
-        'text': 'Home page'
+        'top_users': top_users,
+        'supply_top_ads': get_ads(True,'supply'),
+        'demand_top_ads': get_ads(True,'demand')
     }
     return HttpResponse(template.render(context, request))
 
@@ -49,7 +55,7 @@ def signup(request):
 def supply(request):
     template = loader.get_template('ad/supply.html')
     context = {
-        'supply_ads': Ad.objects.filter(type='supply', status__exact='online')
+        'supply_ads': get_ads(False,'supply')
     }
     return HttpResponse(template.render(context, request))
 
@@ -57,7 +63,7 @@ def supply(request):
 def demand(request):
     template = loader.get_template('ad/demand.html')
     context = {
-        'demand_ads': Ad.objects.filter(type='demand', status__exact='online')
+        'demand_ads': get_ads(False,'demand')
     }
     return HttpResponse(template.render(context, request))
 
