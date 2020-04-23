@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
-from .forms import SignupForm, UpdateProfileForm
+from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm
 from .models import Ad, User
 from django.db.models import Count
 from .methods import get_ads
@@ -51,13 +51,34 @@ def signup(request):
 
     return redirect('worker:home')
 
-#"""@decorators.login_required(login_url='/your_login_page')""""
 @csrf_protect
 @requires_csrf_token
-def worker_profile(request, user_id):
+def login_worker(request):
+    template = loader.get_template('accounts/login.html')
+    user = get_user(request)
+    if not user.is_authenticated:
+        if request.method == 'POST':
+            form =  LoginWorkerForm(request.POST)
+            if form.is_valid():
+                email = form.cleaned_data['email']
+                password = form.cleaned_data['password']
+                user = authenticate(email=email, password=password)
+                login(request, user)
+                return redirect('worker:profile')
+        else:
+            form = LoginWorkerForm()
+            context = {
+            'form': form
+            }
+        return HttpResponse(template.render(context, request))
+    return redirect('worker:home')
+
+@decorators.login_required(login_url='/accounts/login')
+@csrf_protect
+@requires_csrf_token
+def worker_profile(request):
     template = loader.get_template('accounts/profile.html')
-    id = int(user_id)
-    user = User.objects.get(id=id)
+    user = get_user(request)
     form = UpdateProfileForm(initial={
                             'first_name': user.first_name,
                             'last_name': user.last_name,
@@ -83,6 +104,9 @@ def worker_profile(request, user_id):
             'form': form
         }
     return HttpResponse(template.render(context, request))
+
+def get_my_ads(request, user_id):
+    template = loader.get_template('ad/detail.html')
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
