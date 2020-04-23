@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if ad %}
+        <h1>{{ ad.title }}</h1>
+    {% else %}
+        <p>No ad are available.</p>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}{% endblock %}
