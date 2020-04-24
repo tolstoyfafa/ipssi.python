@@ -20,6 +20,23 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if demand_ads.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ demand_ads.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ demand_ads.number }} of {{ demand_ads.paginator.num_pages }}.
+                </span>
+
+                {% if demand_ads.has_next %}
+                    <a href="?page={{ demand_ads.next_page_number }}">next</a>
+                    <a href="?page={{ demand_ads.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     {% else %}
         <p>No ads are available.</p>
     {% endif %}

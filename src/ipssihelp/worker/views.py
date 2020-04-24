@@ -120,8 +120,11 @@ def supply(request):
 
 def demand(request):
     template = loader.get_template('ad/demand.html')
+    paginator = Paginator(get_ads(False,'demand'), 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'demand_ads': get_ads(False,'demand')
+        'demand_ads': page_obj
     }
     return HttpResponse(template.render(context, request))
 
