@@ -28,5 +28,24 @@ class LoginWorkerForm(forms.Form):
         strip=False
     )
 
+TYPE_CHOICES =(
+    ("supply", "Supply"),
+    ("demand", "Demand"),
+)
+
+STATUS_CHOICES =(
+    ("waiting", "Waiting"),
+    ("online", "Online"),
+    ("cancelled", "Cancelled"),
+)
+class AdForm(forms.Form):
+    title = forms.CharField(required=True)
+    description = forms.CharField(required=True)
+    category = forms.CharField(required=True)
+    type = forms.ChoiceField(choices=TYPE_CHOICES)
+    status = forms.ChoiceField(choices=STATUS_CHOICES)
+
+
+
 class ContactForm(forms.Form):
     content = forms.CharField(required=True)
