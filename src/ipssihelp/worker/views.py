@@ -166,15 +166,26 @@ def detail(request, slug):
     return HttpResponse(template.render(context, request))
 
 @decorators.login_required(login_url='/accounts/login')
-def getAllAds(request):
+def get_all_ads(request):
     """get all ads of an author"""
     template = loader.get_template('accounts/ads.html')
     user = get_user(request)
     if user:
         myads = user.ad_set.filter(type='demand', status__exact='online')
-        print(myads)
     context = {
         'ads': myads
+    }
+    return HttpResponse(template.render(context, request))
+
+@decorators.login_required(login_url='/accounts/login')
+def get_all_messages(request):
+    """get all messages of an author"""
+    template = loader.get_template('accounts/messages.html')
+    user = get_user(request)
+    if user:
+        mymsgs = user.message_set.all()
+    context = {
+        'msgs': mymsgs
     }
     return HttpResponse(template.render(context, request))
 

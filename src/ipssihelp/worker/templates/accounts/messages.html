@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Mes Annonces{% endblock %}
+{% block content %}
+<div style="margin-left:20px;margin-top:20px">
+  {% if msgs %}
+  <ul>
+
+    <hr />
+    <table class="table">
+
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Sender</th>
+          <th scope="col">Announce</th>
+          <th scope="col">last update</th>
+          <th scope="col">created on</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for msg in msgs %}
+        <tr>
+          <th scope="row">#</th>
+          <td>{{msg.sender}}</td>
+          <td><a href="{% url 'worker:detail' slug=msg.conversation.ad.slug %}" target="_blank">{{msg.conversation.ad.title}}</a></td>
+          <td>{{msg.updated}}</td>
+          <td>{{msg.created}}</td>
+        </tr>
+            {% endfor %}
+      </tbody>
+
+    </table>
+
+  </ul>
+  {% else %}
+  <p>Vous avez accune anonce.</p>
+  {% endif %}
+</div>
+{% endblock %}
