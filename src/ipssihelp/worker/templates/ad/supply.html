@@ -3,9 +3,9 @@
 {% block title %}Offres{% endblock %}
 
 {% block content %}
-    {% if supply_ads %}
+    {% if ads %}
         <div class="row row-cols-1 row-cols-md-3">
-            {% for ad in supply_ads %}
+            {% for ad in ads %}
                 <div class="col mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -20,23 +20,7 @@
                 </div>
             {% endfor %}
         </div>
-<div class="pagination">
-    <span class="step-links">
-        {% if supply_ads.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ supply_ads.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ supply_ads.number }} of {{ supply_ads.paginator.num_pages }}.
-        </span>
-
-        {% if supply_ads.has_next %}
-            <a href="?page={{ supply_ads.next_page_number }}">next</a>
-            <a href="?page={{ supply_ads.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+          {% include 'ad/pagination.html'%}
 {% else %}
     <p>No ads are available.</p>
 {% endif %}
