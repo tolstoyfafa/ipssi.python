@@ -78,6 +78,21 @@ class User(AbstractUser):
 
         return diff.years
 
+class AdminWorker(User):
+    class Meta:
+        proxy = True
+        verbose_name= _('Worker admin')
+    def save(self, **kwargs):
+        self.is_staff = True
+        super(AdminWorker, self).save(**kwargs)
+
+class CustomWorker(User):
+    class Meta:
+        proxy = True
+        verbose_name= _('Worker customer')
+    def save(self, **kwargs):
+        self.is_staff = False
+        super(AdminWorker, self).save(**kwargs)
 
 class Address(models.Model):
     user = models.OneToOneField(

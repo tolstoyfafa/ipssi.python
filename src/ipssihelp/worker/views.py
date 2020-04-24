@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
 from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm, ContactForm
-from .models import Ad, User, Message, Conversation
+from .models import Ad, User, Message, Conversation, CustomWorker
 from django.db.models import Count
 from .methods import get_ads, get_ads_common
 from django.core.paginator import Paginator
@@ -14,7 +14,7 @@ from django.db.models import Q
 
 def home(request):
     template = loader.get_template('home.html')
-    top_users = User.objects.annotate(ads=Count('ad')).order_by('-ads')[:5]
+    top_users = CustomWorker.objects.annotate(ads=Count('ad')).order_by('-ads')[:5]
     print(top_users)
     context = {
         'top_users': top_users,

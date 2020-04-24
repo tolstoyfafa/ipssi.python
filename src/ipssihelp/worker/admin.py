@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.admin import StackedInline
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as DjangoAdmin
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 from dateutil import relativedelta
-from .models import Ad, User, Category, Address, Conversation, Message, Mission
+from .models import Ad, AdminWorker,CustomWorker,User, Category, Address, Conversation, Message, Mission
 
 
 class AdInline(StackedInline):
@@ -30,7 +30,7 @@ class AddressInline(StackedInline):
 
 
 @admin.register(User)
-class UserAdmin(UserAdmin):
+class UserAdmin(DjangoAdmin):
     list_display = ('email', '_name', '_age', 'phone', '_address_full', 'is_staff', 'updated')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -82,6 +82,18 @@ class UserAdmin(UserAdmin):
         return output
     _name.short_description = _('Name')
 
+@admin.register(AdminWorker)
+class WorkerAdminV(UserAdmin):
+    list_display = ('email', 'is_staff', 'updated')
+    def get_queryset(self, request):
+        query = super().get_queryset(request)
+        return query.filter(is_staff=True)
+
+@admin.register(CustomWorker)
+class WorkerAdminV(UserAdmin):
+    def get_queryset(self, request):
+        query = super().get_queryset(request)
+        return query.filter(is_staff=False)
 
 class MissionInline(StackedInline):
     model = Mission
