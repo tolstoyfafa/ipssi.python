@@ -107,6 +107,16 @@ def worker_profile(request):
         }
     return HttpResponse(template.render(context, request))
 
+@decorators.login_required(login_url='/accounts/login')
+@csrf_protect
+@requires_csrf_token
+def contact(request):
+    template = loader.get_template('accounts/contact.html')
+    context = {
+        
+    }
+    return HttpResponse(template.render(context, request))
+
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
