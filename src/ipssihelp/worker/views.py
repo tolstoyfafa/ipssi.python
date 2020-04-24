@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect, requires_csrf_token
 from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm
 from .models import Ad, User
 from django.db.models import Count
-from .methods import get_ads
+from .methods import get_ads, get_ads_common
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -110,34 +110,12 @@ def worker_profile(request):
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
-    query = request.GET.get('q')
-    results = None
-    if query:
-        results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query),type='supply' ,status__exact='online')
-    else:
-        results = get_ads(False,'supply')
-    paginator = Paginator(results, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'ads': page_obj
-    }
+    context = get_ads_common(request,'supply','online')
     return HttpResponse(template.render(context, request))
 
 def demand(request):
     template = loader.get_template('ad/demand.html')
-    query = request.GET.get('q')
-    results = None
-    if query:
-        results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query),type='demand' ,status__exact='online')
-    else:
-        results = get_ads(False,'demand')
-    paginator = Paginator(results, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'ads': page_obj
-    }
+    context = get_ads_common(request,'demand','online')
     return HttpResponse(template.render(context, request))
 
 
