@@ -178,7 +178,7 @@ def get_all_ads(request):
     template = loader.get_template('accounts/ads.html')
     user = get_user(request)
     if user:
-        myads = user.ad_set.filter(type='demand', status__exact='online')
+        myads = user.ad_set.all()
     context = {
         'ads': myads
     }
@@ -202,10 +202,15 @@ def get_all_convs(request, slug):
     template = loader.get_template('accounts/convs.html')
     user = get_user(request)
     get_ad = Ad.objects.get(slug=slug)
+    mymsgs = []
     if user:
         myconvs = get_ad.conversation_set.all()
+        for conv in myconvs:
+            msg = Message.objects.get(conversation_id=conv.id)
+            mymsgs.append(msg)
     context = {
-        'myconvs': myconvs
+        'myconvs': myconvs,
+        'msgs' : mymsgs
     }
     return HttpResponse(template.render(context, request))
 

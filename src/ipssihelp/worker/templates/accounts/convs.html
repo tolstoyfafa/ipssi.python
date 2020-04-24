@@ -11,9 +11,11 @@
                     <h5 class="card-title">
                         <td><a href="{% url 'worker:detail' slug=conv.ad.slug %}" target="_blank">anonce : {{conv.ad.title}}</a>
                     </h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><b>Author</b> : </h6>
-                    <p class="card-text"><b>Content</b>: <br>  </p><br>
-                    <p class="card-text"><b>Received on</b> : </p><br>
+                    {% for msg in msgs %}
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Author</b> {{msg.sender}}: </h6>
+                    <p class="card-text"><b>Content</b>: <br> {{msg.content}} </p><br>
+                    <p class="card-text"><small>Received on</small> : {{msg.created}}</p><br>
+                    {% endfor %}
                     <a href="#" class="btn btn-primary" target="_blank">Answer</a>
                 </div>
             </div>
