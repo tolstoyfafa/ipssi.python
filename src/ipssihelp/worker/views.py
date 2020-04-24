@@ -127,7 +127,7 @@ def search(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
-        'demand_ads': page_obj
+        'ads': page_obj
     }
     return HttpResponse(template.render(context, request))
 
@@ -138,7 +138,7 @@ def demand(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
-        'demand_ads': page_obj
+        'ads': page_obj
     }
     return HttpResponse(template.render(context, request))
 
