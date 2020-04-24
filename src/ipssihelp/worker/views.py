@@ -96,6 +96,10 @@ def worker_profile(request):
             user.last_name = form.cleaned_data['last_name']
             user.email_name = form.cleaned_data['email']
             user.phone = form.cleaned_data['phone']
+            add = Address.objects.create(address1=form.cleaned_data['address1'],
+                                            city=form.cleaned_data['city'],
+                                            postal_code=form.cleaned_data['postal_code'])
+            user.address = add
             user.save()
         else:
             print("error")
@@ -229,9 +233,3 @@ def get_all_convs(request, slug):
         'msgs' : mymsgs
     }
     return HttpResponse(template.render(context, request))
-
-@decorators.login_required(login_url='/accounts/login')
-def protected_page_view(request):
-    template = loader.get_template('your_template.html')
-    # something
-    return HttpResponse(template.render(None, request))
