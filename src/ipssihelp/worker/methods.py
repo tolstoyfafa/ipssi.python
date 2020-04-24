@@ -14,7 +14,7 @@ def get_ads_common(request, ads_type, my_status):
     if query:
         results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query), type=ads_type ,status__exact=my_status)
     else:
-        results = get_ads(False,'demand')
+        results = get_ads(False,ads_type)
     paginator = Paginator(results, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

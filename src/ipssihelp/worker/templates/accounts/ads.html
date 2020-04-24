@@ -13,8 +13,10 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Title</th>
+          <th scope="col">Type</th>
           <th scope="col">Category</th>
-          <th scope="col">last_update</th>
+          <th scope="col">last update</th>
+          <th scope="col">created on</th>
         </tr>
       </thead>
       <tbody>
@@ -22,8 +24,10 @@
         <tr>
           <th scope="row">#</th>
           <td>{{ad.title}}</td>
+          <td>{{ad.type}}</td>
           <td>{{ad.category}}</td>
           <td>{{ad.updated}}</td>
+          <td>{{ad.created}}</td>
         </tr>
             {% endfor %}
       </tbody>

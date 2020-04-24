@@ -2,7 +2,20 @@
 
 {% block content %}
     {% if ad %}
-        <h1>{{ ad.title }}</h1>
+    <div class="card">
+      <div class="card-header">
+        {{ ad.type }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Title: {{ad.title}}</h5>
+        <p class="card-text">Description: {{ad.description}}</p><br>
+        <p class="card-text">Type: {{ad.type}}</p><br>
+        <p class="card-text">Category: {{ad.category}}</p><br>
+        <p class="card-text">Last update: {{ad.updated}}</p><br>
+        <p class="card-text">Creation date: {{ad.updated}}</p><br>
+        <a href="#" class="btn btn-primary">Go somewhere</a><br>
+      </div>
+    </div>
     {% else %}
         <p>No ad are available.</p>
     {% endif %}
