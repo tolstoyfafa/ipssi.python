@@ -24,3 +24,6 @@ class LoginWorkerForm(forms.Form):
         label='password',
         strip=False
     )
+
+class ContactForm(forms.Form):
+    content = forms.CharField(required=True)

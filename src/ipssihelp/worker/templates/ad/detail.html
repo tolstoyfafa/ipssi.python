@@ -13,7 +13,7 @@
         <p class="card-text">Category: {{ad.category}}</p><br>
         <p class="card-text">Last update: {{ad.updated}}</p><br>
         <p class="card-text">Creation date: {{ad.updated}}</p><br>
-        <a href="{% url 'worker:contact' %}" class="btn btn-primary">Contact author</a><br>
+        <a href="{% url 'worker:contact' slug=ad.slug%}" class="btn btn-primary">Contact author</a><br>
       </div>
     </div>
     {% else %}

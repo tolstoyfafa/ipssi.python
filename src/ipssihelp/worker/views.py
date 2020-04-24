@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
-from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm
-from .models import Ad, User
+from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm, ContactForm
+from .models import Ad, User, Message, Conversation
 from django.db.models import Count
 from .methods import get_ads, get_ads_common
 from django.core.paginator import Paginator
@@ -117,12 +117,26 @@ def logout_worker(request):
 @decorators.login_required(login_url='/accounts/login')
 @csrf_protect
 @requires_csrf_token
-def contact(request):
+def contact(request, slug):
     template = loader.get_template('accounts/contact.html')
-
-    context = {
-
-    }
+    user = get_user(request)
+    get_ad = Ad.objects.get(slug=slug)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        context = {
+            'form': form
+        }
+        if form.is_valid():
+            conversation = Conversation.objects.create(ad=get_ad)
+            message = Message.objects.create(content=form.cleaned_data['content'],sender=user, conversation=conversation)
+            return redirect('worker:home')
+        else:
+            print("not valid")
+    else:
+        form = ContactForm()
+        context = {
+            'form': form
+        }
     return HttpResponse(template.render(context, request))
 
 
