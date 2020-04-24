@@ -118,23 +118,15 @@ def supply(request):
     }
     return HttpResponse(template.render(context, request))
 
-def search(request):
-    template = loader.get_template('ad/demand.html')
-    query = request.GET.get('q')
-    results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query), status__exact='online')
-    print(results)
-    paginator = Paginator(results, 1)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'ads': page_obj
-    }
-    return HttpResponse(template.render(context, request))
-
-
 def demand(request):
     template = loader.get_template('ad/demand.html')
-    paginator = Paginator(get_ads(False,'demand'), 10)
+    query = request.GET.get('q')
+    results = None
+    if query:
+        results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query), status__exact='online')
+    else:
+        results = get_ads(False,'demand')
+    paginator = Paginator(results, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {

@@ -3,7 +3,7 @@
 {% block title %}Demandes{% endblock %}
 
 {% block content %}
-<form action="{% url 'worker:search' %}" method="GET">
+<form action="{% url 'worker:demand' %}" method="GET">
   <input name="q" placeholder="search">
   <button type="submit" class="btn btn-success">Search</button>
 </form>
