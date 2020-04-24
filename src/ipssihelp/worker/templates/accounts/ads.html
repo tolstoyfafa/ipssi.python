@@ -29,7 +29,7 @@
           <td>{{ad.category}}</td>
           <td>{{ad.updated}}</td>
           <td>{{ad.created}}</td>
-          <td><a href="{% url 'worker:detail' slug=ad.slug %}" class="card-link" target="_blank">See</a></td>
+          <td><a href="{% url 'worker:convs' slug=ad.slug %}" class="card-link" target="_blank">See</a></td>
         </tr>
             {% endfor %}
       </tbody>

@@ -197,6 +197,19 @@ def get_all_messages(request):
     return HttpResponse(template.render(context, request))
 
 @decorators.login_required(login_url='/accounts/login')
+def get_all_convs(request, slug):
+    """get all conversations of an anonouce"""
+    template = loader.get_template('accounts/convs.html')
+    user = get_user(request)
+    get_ad = Ad.objects.get(slug=slug)
+    if user:
+        myconvs = get_ad.conversation_set.all()
+    context = {
+        'myconvs': myconvs
+    }
+    return HttpResponse(template.render(context, request))
+
+@decorators.login_required(login_url='/accounts/login')
 def protected_page_view(request):
     template = loader.get_template('your_template.html')
     # something

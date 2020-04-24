@@ -15,4 +15,5 @@ urlpatterns = [
     path('account/profile/', views.worker_profile, name='profile'),
     path('account/contact/<slug:slug>/', views.contact, name='contact'),
     path('account/messages/', views.get_all_messages, name='messages'),
+    path('account/convs/<slug:slug>/', views.get_all_convs, name='convs'),
 ]

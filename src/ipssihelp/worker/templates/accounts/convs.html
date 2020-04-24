@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Mes Annonces{% endblock %}
+{% block content %}
+{% if myconvs %}
+<div class="row row-cols-1 row-cols-md-3">
+    {% for conv in myconvs %}
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <td><a href="{% url 'worker:detail' slug=conv.ad.slug %}" target="_blank">anonce : {{conv.ad.title}}</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Author</b> : </h6>
+                    <p class="card-text"><b>Content</b>: <br>  </p><br>
+                    <p class="card-text"><b>Received on</b> : </p><br>
+                    <a href="#" class="btn btn-primary" target="_blank">Answer</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Vous avez auccune conversation.</p>
+{% endif %}
+{% endblock %}
