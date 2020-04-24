@@ -3,6 +3,10 @@
 {% block title %}Demandes{% endblock %}
 
 {% block content %}
+<form action="{% url 'worker:search' %}" method="GET">
+  <input name="q" placeholder="search">
+  <button type="submit" class="btn btn-success">Search</button>
+</form>
     {% if demand_ads %}
         <div class="row row-cols-1 row-cols-md-3">
             {% for ad in demand_ads %}

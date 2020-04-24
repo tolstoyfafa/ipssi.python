@@ -9,6 +9,7 @@ from .models import Ad, User
 from django.db.models import Count
 from .methods import get_ads
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 def home(request):
@@ -109,11 +110,24 @@ def worker_profile(request):
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
-    paginator = Paginator(get_ads(False,'supply'), 10)
+    paginator = Paginator(get_ads(False,'supply'), 1)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'supply_ads': page_obj
+    }
+    return HttpResponse(template.render(context, request))
+
+def search(request):
+    template = loader.get_template('ad/demand.html')
+    query = request.GET.get('q')
+    results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query), status__exact='online')
+    print(results)
+    paginator = Paginator(results, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'demand_ads': page_obj
     }
     return HttpResponse(template.render(context, request))
 
