@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user, decorators, authenticate, login
+from django.contrib.auth import get_user, decorators, authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -110,10 +110,18 @@ def worker_profile(request):
 @decorators.login_required(login_url='/accounts/login')
 @csrf_protect
 @requires_csrf_token
+def logout_worker(request):
+    logout(request)
+    return redirect("worker:home")
+
+@decorators.login_required(login_url='/accounts/login')
+@csrf_protect
+@requires_csrf_token
 def contact(request):
     template = loader.get_template('accounts/contact.html')
+
     context = {
-        
+
     }
     return HttpResponse(template.render(context, request))
 
