@@ -110,7 +110,13 @@ def worker_profile(request):
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
-    paginator = Paginator(get_ads(False,'supply'), 1)
+    query = request.GET.get('q')
+    results = None
+    if query:
+        results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query),type='supply' ,status__exact='online')
+    else:
+        results = get_ads(False,'supply')
+    paginator = Paginator(results, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -123,7 +129,7 @@ def demand(request):
     query = request.GET.get('q')
     results = None
     if query:
-        results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query), status__exact='online')
+        results = Ad.objects.filter(Q(title__icontains=query) | Q(description__icontains=query),type='demand' ,status__exact='online')
     else:
         results = get_ads(False,'demand')
     paginator = Paginator(results, 10)
