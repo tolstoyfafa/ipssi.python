@@ -2,39 +2,21 @@
 
 {% block title %}Mes Annonces{% endblock %}
 {% block content %}
-<div style="margin-left:20px;margin-top:20px">
-  {% if msgs %}
-  <ul>
-
-    <hr />
-    <table class="table">
-
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Sender</th>
-          <th scope="col">Announce</th>
-          <th scope="col">last update</th>
-          <th scope="col">created on</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for msg in msgs %}
-        <tr>
-          <th scope="row">#</th>
-          <td>{{msg.sender}}</td>
-          <td><a href="{% url 'worker:detail' slug=msg.conversation.ad.slug %}" target="_blank">{{msg.conversation.ad.title}}</a></td>
-          <td>{{msg.updated}}</td>
-          <td>{{msg.created}}</td>
-        </tr>
-            {% endfor %}
-      </tbody>
-
-    </table>
-
-  </ul>
-  {% else %}
-  <p>Vous avez accune anonce.</p>
-  {% endif %}
+<div class="row row-cols-1 row-cols-md-3">
+    {% for msg in msgs %}
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <td><a href="{% url 'worker:detail' slug=msg.conversation.ad.slug %}" target="_blank">anonce : {{msg.conversation.ad.title}}</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Author</b> : {{msg.sender}}</h6>
+                    <p class="card-text"><b>Content</b>: <br>  {{msg.content}}</p><br>
+                    <p class="card-text"><b>Received on</b> : {{msg.created}}</p><br>
+                    <a href="#" class="btn btn-primary" target="_blank">Answer</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}
