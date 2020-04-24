@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Ad
+from django.forms import ModelForm
 
 
 class SignupForm(UserCreationForm):
@@ -38,12 +39,11 @@ STATUS_CHOICES =(
     ("online", "Online"),
     ("cancelled", "Cancelled"),
 )
-class AdForm(forms.Form):
-    title = forms.CharField(required=True)
-    description = forms.CharField(required=True)
-    category = forms.CharField(required=True)
-    type = forms.ChoiceField(choices=TYPE_CHOICES)
-    status = forms.ChoiceField(choices=STATUS_CHOICES)
+class AdForm(ModelForm):
+    class Meta:
+        model = Ad
+        exclude = ['user']
+        fields = '__all__'
 
 
 

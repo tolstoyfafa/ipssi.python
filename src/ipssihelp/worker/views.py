@@ -150,7 +150,9 @@ def ad_add(request):
             'form': form
         }
         if form.is_valid():
-            form.save(commit=False)
+            ad =form.save(commit=False)
+            ad.user = user
+            ad.save()
             return redirect('worker:ads')
         else:
             print("not valid")
