@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
 from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm, ContactForm
-from .models import Ad, User, Message, Conversation, CustomWorker
+from .models import Ad, User, Message, Conversation, CustomWorker, Address
 from django.db.models import Count
 from .methods import get_ads, get_ads_common
 from django.core.paginator import Paginator
@@ -42,7 +42,7 @@ def signup(request):
                 raw_password = form.cleaned_data['password1']
                 user = authenticate(email=email, password=raw_password)
                 login(request, user)
-                return redirect('worker:home')
+                return redirect('worker:profile')
         else:
             form = SignupForm()
             context = {
@@ -85,7 +85,10 @@ def worker_profile(request):
                             'first_name': user.first_name,
                             'last_name': user.last_name,
                             'email': user.email,
-                            'phone': user.phone})
+                            'phone': user.phone,
+                            'address1': user.address.address1,
+                            'postal_code': user.address.postal_code,
+                            'city': user.address.city})
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST)
         context = {
@@ -96,8 +99,12 @@ def worker_profile(request):
             user.last_name = form.cleaned_data['last_name']
             user.email_name = form.cleaned_data['email']
             user.phone = form.cleaned_data['phone']
-            user.save(update_fields=['first_name','last_name','phone','email'])
-            print("sucess")
+            add = Address.objects.get(user=user)
+            add.address1 = form.cleaned_data['address1']
+            add.city = form.cleaned_data['city']
+            add.postal_code = form.cleaned_data['postal_code']
+            add.save()
+            user.save()
         else:
             print("error")
     else:

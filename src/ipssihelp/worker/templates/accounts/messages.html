@@ -2,6 +2,7 @@
 
 {% block title %}Mes Annonces{% endblock %}
 {% block content %}
+{% if msgs %}
 <div class="row row-cols-1 row-cols-md-3">
     {% for msg in msgs %}
         <div class="col mb-4">
@@ -19,4 +20,7 @@
         </div>
     {% endfor %}
 </div>
+{% else %}
+<p>Vous avez accun message.</p>
+{% endif %}
 {% endblock %}

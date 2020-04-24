@@ -17,6 +17,9 @@ class UpdateProfileForm(forms.Form):
     last_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     phone = forms.CharField(required=True)
+    address1 = forms.CharField(required=True)
+    postal_code = forms.CharField(required=True)
+    city = forms.CharField(required=True)
 
 class LoginWorkerForm(forms.Form):
     email = forms.EmailField(required=True)
