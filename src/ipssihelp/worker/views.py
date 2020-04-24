@@ -8,6 +8,7 @@ from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm
 from .models import Ad, User
 from django.db.models import Count
 from .methods import get_ads
+from django.core.paginator import Paginator
 
 
 def home(request):
@@ -108,8 +109,11 @@ def worker_profile(request):
 
 def supply(request):
     template = loader.get_template('ad/supply.html')
+    paginator = Paginator(get_ads(False,'supply'), 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'supply_ads': get_ads(False,'supply')
+        'supply_ads': page_obj
     }
     return HttpResponse(template.render(context, request))
 
