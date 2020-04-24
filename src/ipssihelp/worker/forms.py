@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Ad
+from .models import User, Ad, Message
 from django.forms import ModelForm
 
 
@@ -43,6 +43,12 @@ class AdForm(ModelForm):
     class Meta:
         model = Ad
         exclude = ['user']
+        fields = '__all__'
+
+class MsgForm(ModelForm):
+    class Meta:
+        model = Message
+        exclude = ['sender','conversation']
         fields = '__all__'
 
 

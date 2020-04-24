@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
-from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm, ContactForm, AdForm
+from .forms import SignupForm, UpdateProfileForm, LoginWorkerForm, ContactForm, AdForm, MsgForm
 from .models import Ad, User, Message, Conversation, CustomWorker, Address
 from django.db.models import Count
 from .methods import get_ads, get_ads_common

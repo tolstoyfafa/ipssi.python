@@ -16,7 +16,11 @@
                     <p class="card-text"><b>Content</b>: <br> {{msg.content}} </p><br>
                     <p class="card-text"><small>Received on</small> : {{msg.created}}</p><br>
                     {% endfor %}
-                    <a href="#" class="btn btn-primary" target="_blank">Answer</a>
+                    <form method="POST" action="" class="form-horizontal">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="btn btn-success">Send</button>
+                    </form>
                 </div>
             </div>
         </div>
